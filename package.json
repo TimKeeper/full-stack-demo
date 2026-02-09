@@ -1,0 +1,40 @@
+{
+  "name": "full-stack-demo-root",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prepare": "husky",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "stylelint": "stylelint \"**/*.{css,scss,less}\"",
+    "format": "prettier --write .",
+    "type-check": "pnpm -r run type-check"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^18.6.1",
+    "@commitlint/config-conventional": "^18.6.2",
+    "@eslint-react/eslint-plugin": "^2.12.2",
+    "eslint": "^9.39.2",
+    "eslint-plugin-format": "^1.4.0",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.26",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "prettier": "^3.2.5",
+    "stylelint": "^16.2.1",
+    "stylelint-config-standard": "^36.0.0",
+    "tk-commitlint-config": "0.1.0",
+    "tk-eslint-config": "0.1.0",
+    "tk-stylelint-config": "0.1.0",
+    "tk-tsconfig": "0.1.0",
+    "typescript": "^5.3.3"
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx,vue,json}": [
+      "eslint --fix"
+    ],
+    "*.{css,scss,less}": [
+      "stylelint --fix"
+    ]
+  }
+}
