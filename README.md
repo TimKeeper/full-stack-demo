@@ -131,7 +131,32 @@ pnpm -F frontend dev
 - `fix: fix cors issue`
 - `docs: update readme`
 
-## 🔌 API 文档 (API Documentation)
+## � 全栈容器化部署 (Docker Setup)
+
+如果您希望通过 Docker 一键启动所有服务 (前端 + 后端 + 数据库)，可以使用以下命令：
+
+> **提示**: 这种方式适合预览或生产环境部署。如果您需要进行代码开发，建议使用“快速启动”中的本地开发模式。
+
+1. **构建并启动所有服务**
+   ```bash
+   docker-compose up -d --build
+   ```
+   这将会：
+   - 启动 MySQL 数据库 (Port: 3306)
+   - 构建并启动 NestJS 后端 (Port: 3000)
+   - 构建并启动 React 前端 (Nginx, Port: 80)
+
+2. **访问应用**
+   - **前端页面**: [http://localhost](http://localhost) (默认80端口)
+   - **后端 API**: [http://localhost:3000](http://localhost:3000)
+   - **Swagger 文档**: [http://localhost:3000/api](http://localhost:3000/api)
+
+3. **停止服务**
+   ```bash
+   docker-compose down
+   ```
+
+## �🔌 API 文档 (API Documentation)
 
 后端服务启动后，访问 **Swagger UI** 查看完整的 API 接口文档：
 

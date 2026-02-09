@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  # Search Engine / Database
+  # 1. Database Service
   mysql:
     image: mysql:5.7
     platform: linux/amd64
@@ -15,6 +15,47 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      # Data persistence
       - ./deploy/mysql-data:/var/lib/mysql
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    networks:
+      - app_network
+
+  # 2. Backend Service
+  backend:
+    build:
+      context: .
+      dockerfile: deploy/backend.Dockerfile
+    container_name: fullstack_backend
+    restart: always
+    environment:
+      # Override .env for Docker internal networking
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: user
+      DB_PASSWORD: password
+      DB_NAME: fullstack_db
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
+    networks:
+      - app_network
+
+  # 3. Frontend Service
+  frontend:
+    build:
+      context: .
+      dockerfile: deploy/frontend.Dockerfile
+    container_name: fullstack_frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
