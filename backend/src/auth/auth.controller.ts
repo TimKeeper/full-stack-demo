@@ -1,15 +1,15 @@
-import { Controller, Request, Post, UseGuards, Body } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthGuard } from '@nestjs/passport';
 import { Public } from './public.decorator';
-import { User } from '../users/entities/user.entity';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
 import { LoginResponseDto } from './dto/login-response.dto';
-
-interface RequestWithUser extends Request {
-  user: User;
-}
 
 @ApiTags('auth')
 @Controller('auth')
@@ -17,7 +17,6 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Public()
-  @UseGuards(AuthGuard('local'))
   @Post('login')
   @ApiOperation({ summary: 'User login' })
   @ApiBody({ type: LoginDto })
@@ -27,10 +26,31 @@ export class AuthController {
     type: LoginResponseDto,
   })
   @ApiResponse({
-    status: 401,
-    description: 'Unauthorized - Invalid credentials',
+    status: 200,
+    description: 'Login failed - Invalid credentials',
+    schema: {
+      type: 'object',
+      properties: {
+        code: { type: 'number', example: 401 },
+        message: { type: 'string', example: 'Invalid username or password' },
+        data: { type: 'null', example: null },
+        success: { type: 'boolean', example: false },
+      },
+    },
   })
-  login(@Body() _loginDto: LoginDto, @Request() req: RequestWithUser) {
-    return this.authService.login(req.user);
+  async login(@Body() loginDto: LoginDto) {
+    const user = await this.authService.validateUser(
+      loginDto.username,
+      loginDto.password,
+    );
+
+    if (!user) {
+      throw new HttpException(
+        'Invalid username or password',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    return this.authService.login(user);
   }
 }
