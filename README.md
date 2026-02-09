@@ -9,6 +9,7 @@
 - [快速启动 (Quick Start)](#-快速启动-quick-start)
 - [项目结构 (Project Structure)](#-项目结构-project-structure)
 - [开发规范 (Development Guidelines)](#-开发规范-development-guidelines)
+- [生产环境部署 (Production Deployment)](#-生产环境部署-production-deployment)
 - [API 文档 (API Documentation)](#-api-文档-api-documentation)
 
 ## 🛠️ 技术栈 (Tech Stack)
@@ -134,30 +135,60 @@ pnpm -F frontend dev
 - `fix: fix cors issue`
 - `docs: update readme`
 
-## � 全栈容器化部署 (Docker Setup)
+## 🚀 生产环境部署 (Production Deployment)
 
-如果您希望通过 Docker 一键启动所有服务 (前端 + 后端 + 数据库)，可以使用以下命令：
+完整的生产环境部署指南，请查看 **[DEPLOYMENT.md](./DEPLOYMENT.md)**。
 
-> **提示**: 这种方式适合预览或生产环境部署。如果您需要进行代码开发，建议使用“快速启动”中的本地开发模式。
+包含：
+- 服务器配置要求
+- 安全加固（防火墙、HTTPS、密码策略）
+- Nginx 反向代理配置
+- 数据库备份策略
+- 监控和日志管理
+- 常见问题排查
 
-1. **构建并启动所有服务**
-   ```bash
-   docker-compose up -d --build
-   ```
-   这将会：
-   - 启动 MySQL 数据库 (Port: 3306)
-   - 构建并启动 NestJS 后端 (Port: 3000)
-   - 构建并启动 React 前端 (Nginx, Port: 80)
+### 快速部署
 
-2. **访问应用**
-   - **前端页面**: [http://localhost](http://localhost) (默认80端口)
-   - **后端 API**: [http://localhost:3000](http://localhost:3000)
-   - **Swagger 文档**: [http://localhost:3000/api](http://localhost:3000/api)
+对于测试或预览环境，可以使用以下命令快速部署：
 
-3. **停止服务**
-   ```bash
-   docker-compose down
-   ```
+```bash
+# 1. 修改环境变量（⚠️ 生产环境必须修改默认密码）
+cp .env .env.production
+# 编辑 .env.production，修改数据库密码和 JWT_SECRET
+
+# 2. 构建并启动所有服务
+docker-compose up -d --build
+
+# 3. 查看服务状态
+docker-compose ps
+```
+
+访问地址：
+- 前端: http://your-server-ip
+- 后端 API: http://your-server-ip:3000
+- Swagger 文档: http://your-server-ip:3000/api
+
+## � 本地容器化开发 (Local Docker Setup)
+
+如果您希望在本地环境通过 Docker 预览完整的容器化应用，可以使用以下命令：
+
+> **提示**: 这种方式适合本地预览容器化效果。如果需要开发调试，建议使用"快速启动"中的本地开发模式。
+
+```bash
+# 构建并启动所有服务
+docker-compose up -d --build
+
+# 查看日志
+docker-compose logs -f
+
+# 停止服务
+docker-compose down
+```
+
+**访问地址**:
+- **前端页面**: [http://localhost](http://localhost)
+- **后端 API**: [http://localhost:3000](http://localhost:3000)
+- **Swagger 文档**: [http://localhost:3000/api](http://localhost:3000/api)
 
 ## �🔌 API 文档 (API Documentation)
 
