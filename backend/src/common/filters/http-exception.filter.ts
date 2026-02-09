@@ -12,7 +12,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-    const request = ctx.getRequest<Request>();
+    // const request = ctx.getRequest<Request>(); // Removed unused variable
 
     // Determine the status code (e.g., 400, 401, 404, 500)
     const status =
@@ -26,8 +26,8 @@ export class HttpExceptionFilter implements ExceptionFilter {
       const res = exception.getResponse();
       // If the response is an object (common in NestJS), extract the message
       if (typeof res === 'object' && res !== null && 'message' in res) {
-        const msg = (res as any).message;
-        message = Array.isArray(msg) ? msg.join(', ') : msg;
+        const msg = (res as { message?: string | string[] }).message;
+        message = Array.isArray(msg) ? msg.join(', ') : (msg as string);
       } else if (typeof res === 'string') {
         message = res;
       }
