@@ -1,0 +1,16 @@
+{
+  "name": "@repo/eslint-config",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "Shared ESLint configuration",
+  "main": "./index.js",
+  "peerDependencies": {
+    "eslint": ">=9.0.0",
+    "prettier": ">=3.0.0"
+  },
+  "dependencies": {
+    "@antfu/eslint-config": "^7.3.0",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-plugin-prettier": "^5.2.1"
+  }
+}
