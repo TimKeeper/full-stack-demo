@@ -1,0 +1,41 @@
+# OS & Editors
+.DS_Store
+.vscode/
+.idea/
+.fleet/
+*.log
+
+# Dependencies
+node_modules/
+.pnpm-debug.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build Outputs
+dist/
+build/
+coverage/
+
+# Environment Variables
+.env
+.env.*
+!.env.example
+
+# Deployment & Data
+deploy/mysql-data/
+deploy/data/
+docker-data/
+
+# NestJS specific
+backend/dist/
+backend/test/coverage/
+
+# Frontend specific
+frontend/dist/
+frontend/dist-ssr/
+frontend/coverage/
+
+# Temporary files
+*.swp
+*.swo
