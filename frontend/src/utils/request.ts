@@ -11,11 +11,10 @@ const request = axios.create({
 // Request Interceptor
 request.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    // You can add auth token here if needed
-    // const token = localStorage.getItem('token');
-    // if (token) {
-    //   config.headers.Authorization = `Bearer ${token}`;
-    // }
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => {
@@ -39,6 +38,13 @@ request.interceptors.response.use(
         return data.data;
       } else {
         // Handle business error (code !== 0)
+        if (data.code === 401) {
+          localStorage.removeItem("token");
+          window.location.href = `/login?redirect=${encodeURIComponent(
+            window.location.pathname + window.location.search
+          )}`;
+          return Promise.reject(new Error(data.message || "Unauthorized"));
+        }
         message.error(data.message || "Error");
         return Promise.reject(new Error(data.message || "Error"));
       }

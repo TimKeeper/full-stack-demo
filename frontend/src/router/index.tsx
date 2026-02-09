@@ -3,7 +3,13 @@ import MainLayout from "../layout/MainLayout";
 import Dashboard from "../pages/Dashboard";
 import UserList from "../pages/UserList";
 
+import Login from "../pages/Login";
+
 const router = createBrowserRouter([
+  {
+    path: "/login",
+    element: <Login />,
+  },
   {
     path: "/",
     element: <MainLayout />,
