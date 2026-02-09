@@ -31,6 +31,6 @@ export class User {
     example: '2024-02-09T12:00:00Z',
     description: 'Creation timestamp',
   })
-  @CreateDateColumn()
-  created_at: Date;
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
 }

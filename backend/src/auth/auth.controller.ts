@@ -5,6 +5,7 @@ import { Public } from './public.decorator';
 import { User } from '../users/entities/user.entity';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
+import { LoginResponseDto } from './dto/login-response.dto';
 
 interface RequestWithUser extends Request {
   user: User;
@@ -22,16 +23,8 @@ export class AuthController {
   @ApiBody({ type: LoginDto })
   @ApiResponse({
     status: 200,
-    description: 'Login successful, returns access token',
-    schema: {
-      type: 'object',
-      properties: {
-        access_token: {
-          type: 'string',
-          example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
-        },
-      },
-    },
+    description: 'Login successful, returns access token and user info',
+    type: LoginResponseDto,
   })
   @ApiResponse({
     status: 401,

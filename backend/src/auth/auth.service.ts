@@ -3,6 +3,7 @@ import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { User } from '../users/entities/user.entity';
+import { LoginResponseDto } from './dto/login-response.dto';
 
 @Injectable()
 export class AuthService {
@@ -27,10 +28,16 @@ export class AuthService {
     return null;
   }
 
-  login(user: User) {
+  login(user: User): LoginResponseDto {
     const payload = { username: user.username, sub: user.id };
     return {
-      access_token: this.jwtService.sign(payload),
+      accessToken: this.jwtService.sign(payload),
+      user: {
+        id: user.id,
+        username: user.username,
+        nickname: user.nickname,
+        createdAt: user.createdAt,
+      },
     };
   }
 }
