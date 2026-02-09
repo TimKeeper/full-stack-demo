@@ -39,3 +39,7 @@ frontend/coverage/
 # Temporary files
 *.swp
 *.swo
+
+# Claude
+claude-*.log
+*.claude/
