@@ -16,7 +16,7 @@ export class User {
   @Column({ unique: true })
   username: string;
 
-  @Column({ select: false }) // Don't return password by default
+  @Column({ select: false })
   password: string;
 
   @ApiProperty({

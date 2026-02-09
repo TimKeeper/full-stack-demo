@@ -17,6 +17,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
+import { Public } from '../auth/public.decorator';
 
 @ApiTags('users')
 @ApiBearerAuth()
@@ -24,8 +25,9 @@ import { User } from './entities/user.entity';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @Public()
   @Post()
-  @ApiOperation({ summary: 'Create a new user' })
+  @ApiOperation({ summary: 'Create a new user (Register)' })
   @ApiResponse({
     status: 201,
     description: 'The user has been successfully created.',
