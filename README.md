@@ -68,13 +68,16 @@ PORT=3000
 
 ### 3. 启动数据库 (Start Database)
 
-使用 Docker Compose 启动 MySQL 服务：
+使用 Docker Compose **仅启动** MySQL 服务：
 
 ```bash
-docker-compose up -d
+docker-compose up -d mysql
 ```
 
-> **注意**: 如果是首次启动，MySQL 容器初始化可能需要几秒钟。TypeORM 已配置为 `synchronize: true`，会自动同步数据库表结构。
+> **注意**:
+> - 这里只启动 `mysql` 服务，避免端口冲突
+> - 如果是首次启动，MySQL 容器初始化可能需要几秒钟
+> - TypeORM 已配置为 `synchronize: true`，会自动同步数据库表结构
 
 ### 4. 启动后端服务 (Start Backend)
 
