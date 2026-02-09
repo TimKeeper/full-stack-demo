@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  # Search Engine / Database
+  mysql:
+    image: mysql:5.7
+    platform: linux/amd64
+    container_name: fullstack_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: fullstack_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      # Data persistence
+      - ./deploy/mysql-data:/var/lib/mysql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
